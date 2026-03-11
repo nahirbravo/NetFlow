@@ -22,11 +22,11 @@ function formatDate(dateStr: string) {
 
 export function RecentTransactions({ transactions }: RecentTransactionsProps) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-5">
-      <div className="flex items-center justify-between mb-4">
+    <div className="bg-white rounded-3xl shadow-sm p-7">
+      <div className="flex items-center justify-between mb-5">
         <h3 className="text-sm font-semibold text-gray-700">Últimos movimientos</h3>
         <Link
-          to="/transactions"
+          to="/app/transactions"
           className="text-xs text-indigo-600 hover:text-indigo-700 font-medium"
         >
           Ver todos →

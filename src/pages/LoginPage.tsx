@@ -10,7 +10,7 @@ export function LoginPage() {
     clearError()
     await signIn(values.email, values.password)
     // signIn throws on error, so if we reach here it succeeded
-    navigate('/')
+    navigate('/app')
   }
 
   return (

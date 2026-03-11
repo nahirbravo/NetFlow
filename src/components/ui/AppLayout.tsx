@@ -17,40 +17,43 @@ export function AppLayout() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-14">
             {/* Brand */}
-            <Link to="/" className="text-base font-semibold text-gray-900 tracking-tight">
+            <Link to="/app" className="text-base font-semibold text-gray-900 tracking-tight">
               NetFlow
             </Link>
 
             {/* Nav links */}
-            <div className="flex items-center gap-1">
+            <div className="flex items-center">
               <Link
-                to="/"
-                className="text-sm font-medium text-gray-500 hover:text-gray-900 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors min-h-[44px] flex items-center"
+                to="/app"
+                className="text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-900 px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors min-h-[44px] flex items-center"
               >
-                Dashboard
+                <span className="sm:hidden">Inicio</span>
+                <span className="hidden sm:inline">Dashboard</span>
               </Link>
               <Link
-                to="/transactions"
-                className="text-sm font-medium text-gray-500 hover:text-gray-900 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors min-h-[44px] flex items-center"
+                to="/app/transactions"
+                className="text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-900 px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors min-h-[44px] flex items-center"
               >
-                Movimientos
+                <span className="sm:hidden">Movim.</span>
+                <span className="hidden sm:inline">Movimientos</span>
               </Link>
               <Link
-                to="/categories"
-                className="text-sm font-medium text-gray-500 hover:text-gray-900 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors min-h-[44px] flex items-center"
+                to="/app/categories"
+                className="text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-900 px-2 sm:px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors min-h-[44px] flex items-center"
               >
-                Categorías
+                <span className="sm:hidden">Categ.</span>
+                <span className="hidden sm:inline">Categorías</span>
               </Link>
             </div>
 
             {/* User + logout */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <span className="hidden sm:block text-xs text-gray-400 truncate max-w-[140px]">
                 {user?.email}
               </span>
               <button
                 onClick={handleSignOut}
-                className="text-sm text-gray-500 hover:text-red-600 px-3 py-2 rounded-lg hover:bg-red-50 transition-colors min-h-[44px] flex items-center"
+                className="text-xs sm:text-sm text-gray-500 hover:text-red-600 px-2 sm:px-3 py-2 rounded-lg hover:bg-red-50 transition-colors min-h-[44px] flex items-center"
               >
                 Salir
               </button>

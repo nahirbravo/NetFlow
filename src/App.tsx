@@ -3,12 +3,14 @@ import { AppLayout } from '@/components/ui/AppLayout'
 import { ProtectedRoute } from '@/components/ui/ProtectedRoute'
 import { LoginPage } from '@/pages/LoginPage'
 import { RegisterPage } from '@/pages/RegisterPage'
+import { LandingPage } from '@/pages/LandingPage'
 import { DashboardPage } from '@/pages/DashboardPage'
 import { TransactionsPage } from '@/pages/TransactionsPage'
 import { CategoriesPage } from '@/pages/CategoriesPage'
 
 const router = createBrowserRouter([
   // Public routes
+  { path: '/', element: <LandingPage /> },
   { path: '/login', element: <LoginPage /> },
   { path: '/register', element: <RegisterPage /> },
 
@@ -20,9 +22,9 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      { path: '/', element: <DashboardPage /> },
-      { path: '/transactions', element: <TransactionsPage /> },
-      { path: '/categories', element: <CategoriesPage /> },
+      { path: '/app', element: <DashboardPage /> },
+      { path: '/app/transactions', element: <TransactionsPage /> },
+      { path: '/app/categories', element: <CategoriesPage /> },
     ],
   },
 ])

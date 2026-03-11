@@ -17,7 +17,7 @@ function formatCurrency(value: number) {
 export function ExpensePieChart({ data }: ExpensePieChartProps) {
   if (data.length === 0) {
     return (
-      <div className="bg-white rounded-2xl shadow-sm p-5">
+      <div className="bg-white rounded-3xl shadow-sm p-7">
         <h3 className="text-sm font-semibold text-gray-700 mb-3">Gastos por categoría</h3>
         <EmptyState
           title="Sin datos"
@@ -29,7 +29,7 @@ export function ExpensePieChart({ data }: ExpensePieChartProps) {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-5">
+    <div className="bg-white rounded-3xl shadow-sm p-7">
       <h3 className="text-sm font-semibold text-gray-700 mb-3">Gastos por categoría</h3>
       <ResponsiveContainer width="100%" height={280}>
         <PieChart>

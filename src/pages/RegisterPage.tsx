@@ -10,7 +10,7 @@ export function RegisterPage() {
     clearError()
     await signUp(values.email, values.password)
     // signUp throws on error, so if we reach here it succeeded
-    navigate('/')
+    navigate('/app')
   }
 
   return (

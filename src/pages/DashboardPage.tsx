@@ -10,7 +10,11 @@ import { useAuthStore } from '@/stores/auth.store'
 import { Spinner } from '@/components/ui/Spinner'
 import type { DateRange, PieChartEntry } from '@/types/database.types'
 
-// Get first and last day of current month as YYYY-MM-DD
+const MONTH_NAMES = [
+  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
+]
+
 function currentMonthRange(): DateRange {
   const now = new Date()
   const year = now.getFullYear()
@@ -20,6 +24,16 @@ function currentMonthRange(): DateRange {
     from: `${year}-${month}-01`,
     to: `${year}-${month}-${String(lastDay).padStart(2, '0')}`,
   }
+}
+
+function monthLabel(range: DateRange): string {
+  const [year, month] = range.from.split('-')
+  const toYear = range.to.split('-')[0]
+  const toMonth = range.to.split('-')[1]
+  if (month === toMonth && year === toYear) {
+    return `${MONTH_NAMES[parseInt(month) - 1]} ${year}`
+  }
+  return `${range.from} → ${range.to}`
 }
 
 export function DashboardPage() {
@@ -33,14 +47,12 @@ export function DashboardPage() {
     fetchCategories()
   }, [fetchTransactions, fetchCategories])
 
-  // Filter transactions by selected date range
   const filtered = useMemo(() => {
     return transactions.filter(
       (t) => t.date >= dateRange.from && t.date <= dateRange.to
     )
   }, [transactions, dateRange])
 
-  // Compute summary values
   const totalIncome = useMemo(
     () => filtered.filter((t) => t.type === 'income').reduce((s, t) => s + t.amount, 0),
     [filtered]
@@ -51,7 +63,6 @@ export function DashboardPage() {
   )
   const balance = totalIncome - totalExpenses
 
-  // Compute pie chart data (expenses grouped by category)
   const pieData = useMemo<PieChartEntry[]>(() => {
     const map = new Map<string, { name: string; value: number; color: string }>()
     filtered
@@ -79,10 +90,17 @@ export function DashboardPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Header */}
-      <div className="flex items-center justify-between flex-wrap gap-3">
-        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Dashboard</h1>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-medium text-gray-400 uppercase tracking-widest mb-1">
+            Resumen
+          </p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
+            {monthLabel(dateRange)}
+          </h1>
+        </div>
         <ExportPDFButton
           transactions={filtered}
           dateRange={dateRange}
@@ -90,19 +108,21 @@ export function DashboardPage() {
         />
       </div>
 
-      {/* Date range picker */}
+      {/* Date range picker — full width */}
       <DateRangePicker value={dateRange} onChange={setDateRange} />
 
-      {/* Balance summary */}
+      {/* Balance — card oscuro full width */}
       <BalanceCard
         totalIncome={totalIncome}
         totalExpenses={totalExpenses}
         balance={balance}
       />
 
-      {/* Charts + recent */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <ExpensePieChart data={pieData} />
+      {/* Bento — gráfico (ancho) + movimientos recientes */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div className="lg:col-span-2">
+          <ExpensePieChart data={pieData} />
+        </div>
         <RecentTransactions transactions={filtered} />
       </div>
     </div>
