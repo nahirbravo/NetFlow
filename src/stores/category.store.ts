@@ -12,7 +12,7 @@ interface CategoryState {
   deleteCategory: (id: string) => Promise<void>
 }
 
-export const useCategoryStore = create<CategoryState>((set, get) => ({
+export const useCategoryStore = create<CategoryState>((set) => ({
   categories: [],
   loading: false,
   error: null,
@@ -84,11 +84,6 @@ export const useCategoryStore = create<CategoryState>((set, get) => ({
   deleteCategory: async (id) => {
     set({ error: null })
     try {
-      const cat = get().categories.find((c) => c.id === id)
-      if (cat?.is_system) {
-        set({ error: 'No se pueden eliminar categorías del sistema' })
-        throw new Error('No se pueden eliminar categorías del sistema')
-      }
       const { error } = await supabase.from('categories').delete().eq('id', id)
       if (error) throw error
       set((state) => ({

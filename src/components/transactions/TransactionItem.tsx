@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { MoreVertical, Pencil, Trash2 } from 'lucide-react'
+import { Pencil, Trash2 } from 'lucide-react'
 import { CategoryBadge } from '@/components/categories/CategoryBadge'
 import type { Transaction } from '@/types/database.types'
 
@@ -9,13 +8,11 @@ interface TransactionItemProps {
   onDelete: (id: string) => void
 }
 
-// Format date as dd/MM/yyyy
 function formatDate(dateStr: string) {
   const [year, month, day] = dateStr.split('-')
   return `${day}/${month}/${year}`
 }
 
-// Format amount as currency
 function formatAmount(amount: number) {
   return new Intl.NumberFormat('es-AR', {
     style: 'currency',
@@ -25,11 +22,10 @@ function formatAmount(amount: number) {
 }
 
 export function TransactionItem({ transaction, onEdit, onDelete }: TransactionItemProps) {
-  const [menuOpen, setMenuOpen] = useState(false)
   const isIncome = transaction.type === 'income'
 
   return (
-    <div className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50/80 transition-colors min-h-[44px]">
+    <div className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50/80 transition-colors min-h-[56px]">
       {/* Category badge */}
       <div className="flex-shrink-0">
         {transaction.category ? (
@@ -46,54 +42,32 @@ export function TransactionItem({ transaction, onEdit, onDelete }: TransactionIt
         <p className="text-sm text-gray-900 truncate">
           {transaction.description ?? '—'}
         </p>
-        <p className="text-xs text-gray-500">{formatDate(transaction.date)}</p>
+        <p className="text-xs text-gray-400">{formatDate(transaction.date)}</p>
       </div>
 
       {/* Amount */}
-      <div
-        className={`text-sm font-semibold flex-shrink-0 ${
-          isIncome ? 'text-green-600' : 'text-red-600'
-        }`}
-      >
+      <span className={`text-sm font-semibold flex-shrink-0 ${isIncome ? 'text-emerald-600' : 'text-red-500'}`}>
         {isIncome ? '+' : '-'}{formatAmount(transaction.amount)}
-      </div>
+      </span>
 
-      {/* Kebab menu */}
-      <div className="relative flex-shrink-0">
+      {/* Inline actions */}
+      <div className="flex gap-1 flex-shrink-0">
         <button
           type="button"
-          onClick={() => setMenuOpen((v) => !v)}
-          className="p-2 rounded-lg hover:bg-gray-100 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center text-gray-400"
-          aria-label="Opciones"
+          onClick={() => onEdit(transaction)}
+          className="text-gray-400 hover:text-indigo-600 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-indigo-50 transition-colors"
+          aria-label="Editar movimiento"
         >
-          <MoreVertical size={16} />
+          <Pencil size={14} />
         </button>
-
-        {menuOpen && (
-          <>
-            {/* Backdrop to close */}
-            <div
-              className="fixed inset-0 z-10"
-              onClick={() => setMenuOpen(false)}
-            />
-            <div className="absolute right-0 top-full mt-1 w-36 bg-white rounded-xl shadow-lg border border-gray-100 z-20 py-1">
-              <button
-                type="button"
-                onClick={() => { setMenuOpen(false); onEdit(transaction) }}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px] flex items-center gap-2"
-              >
-                <Pencil size={14} /> Editar
-              </button>
-              <button
-                type="button"
-                onClick={() => { setMenuOpen(false); onDelete(transaction.id) }}
-                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 min-h-[44px] flex items-center gap-2"
-              >
-                <Trash2 size={14} /> Eliminar
-              </button>
-            </div>
-          </>
-        )}
+        <button
+          type="button"
+          onClick={() => onDelete(transaction.id)}
+          className="text-gray-400 hover:text-red-600 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-red-50 transition-colors"
+          aria-label="Eliminar movimiento"
+        >
+          <Trash2 size={14} />
+        </button>
       </div>
     </div>
   )
