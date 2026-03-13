@@ -12,7 +12,7 @@ interface CategoryState {
   deleteCategory: (id: string) => Promise<void>
 }
 
-export const useCategoryStore = create<CategoryState>((set) => ({
+export const useCategoryStore = create<CategoryState>((set, get) => ({
   categories: [],
   loading: false,
   error: null,
@@ -27,7 +27,13 @@ export const useCategoryStore = create<CategoryState>((set) => ({
         .order('name', { ascending: true })
 
       if (error) throw error
-      set({ categories: data ?? [] })
+      // Deduplicar por nombre: prioriza categorías del usuario sobre las del sistema
+      const seen = new Map<string, Category>()
+      for (const cat of (data ?? [])) {
+        const existing = seen.get(cat.name)
+        if (!existing || existing.is_system) seen.set(cat.name, cat)
+      }
+      set({ categories: Array.from(seen.values()) })
     } catch (err) {
       set({ error: err instanceof Error ? err.message : 'Error al cargar categorías' })
     } finally {
@@ -78,6 +84,11 @@ export const useCategoryStore = create<CategoryState>((set) => ({
   deleteCategory: async (id) => {
     set({ error: null })
     try {
+      const cat = get().categories.find((c) => c.id === id)
+      if (cat?.is_system) {
+        set({ error: 'No se pueden eliminar categorías del sistema' })
+        throw new Error('No se pueden eliminar categorías del sistema')
+      }
       const { error } = await supabase.from('categories').delete().eq('id', id)
       if (error) throw error
       set((state) => ({

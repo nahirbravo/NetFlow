@@ -34,13 +34,14 @@ export function TransactionForm({ transaction, onSubmit, onCancel, serverError }
   const {
     register,
     handleSubmit,
+    reset,
     setValue,
     watch,
     formState: { errors, isSubmitting },
   } = useForm<TransactionFormValues>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
-      amount: transaction?.amount ?? ('' as unknown as number),
+      amount: transaction?.amount ?? undefined,
       type: transaction?.type ?? 'expense',
       category_id: transaction?.category_id ?? '',
       date: transaction?.date ?? todayString(),
@@ -53,13 +54,15 @@ export function TransactionForm({ transaction, onSubmit, onCancel, serverError }
   // Re-initialize if editing a different transaction
   useEffect(() => {
     if (transaction) {
-      setValue('amount', transaction.amount)
-      setValue('type', transaction.type)
-      setValue('category_id', transaction.category_id ?? '')
-      setValue('date', transaction.date)
-      setValue('description', transaction.description ?? '')
+      reset({
+        amount: transaction.amount,
+        type: transaction.type,
+        category_id: transaction.category_id ?? '',
+        date: transaction.date,
+        description: transaction.description ?? '',
+      })
     }
-  }, [transaction, setValue])
+  }, [transaction, reset])
 
   const isEditing = !!transaction
 
