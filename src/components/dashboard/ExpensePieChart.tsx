@@ -15,11 +15,39 @@ function formatCurrency(value: number) {
   }).format(value)
 }
 
+interface LegendPayloadItem {
+  value: string
+  payload: PieChartEntry
+}
+
+function CustomLegend({ payload, total }: { payload?: LegendPayloadItem[]; total: number }) {
+  const items = payload ?? []
+  return (
+    <ul className="flex flex-wrap gap-x-4 gap-y-1.5 mt-3 justify-center">
+      {items.map((item, index) => {
+        const pct = total > 0 ? Math.round((item.payload.value / total) * 100) : 0
+        return (
+          <li key={index} className="flex items-center gap-1.5 text-xs text-gray-600">
+            <span
+              className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+              style={{ backgroundColor: item.payload.color }}
+            />
+            {item.value}
+            <span className="text-gray-400 tabular-nums">({pct}%)</span>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
 export function ExpensePieChart({ data }: ExpensePieChartProps) {
+  const total = data.reduce((s, d) => s + d.value, 0)
+
   if (data.length === 0) {
     return (
-      <div className="bg-white rounded-3xl shadow-sm p-7">
-        <h3 className="text-sm font-semibold text-gray-700 mb-3">Gastos por categoría</h3>
+      <div className="bg-white rounded-3xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] p-7 h-full">
+        <h3 className="text-sm font-semibold text-gray-800 tracking-tight mb-3">Gastos por categoría</h3>
         <EmptyState
           title="Sin datos"
           description="No hay gastos en este período."
@@ -30,16 +58,16 @@ export function ExpensePieChart({ data }: ExpensePieChartProps) {
   }
 
   return (
-    <div className="bg-white rounded-3xl shadow-sm p-7">
-      <h3 className="text-sm font-semibold text-gray-700 mb-3">Gastos por categoría</h3>
-      <ResponsiveContainer width="100%" height={280}>
+    <div className="bg-white rounded-3xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] p-7">
+      <h3 className="text-sm font-semibold text-gray-800 tracking-tight mb-3">Gastos por categoría</h3>
+      <ResponsiveContainer width="100%" height={340}>
         <PieChart>
           <Pie
             data={data}
             cx="50%"
-            cy="50%"
-            innerRadius={60}
-            outerRadius={100}
+            cy="45%"
+            innerRadius={70}
+            outerRadius={115}
             paddingAngle={2}
             dataKey="value"
           >
@@ -48,15 +76,18 @@ export function ExpensePieChart({ data }: ExpensePieChartProps) {
             ))}
           </Pie>
           <Tooltip
-            formatter={(value) => [
+            formatter={(value, _name, props) => [
               formatCurrency(typeof value === 'number' ? value : 0),
-              'Total',
+              props.payload?.name ?? 'Categoría',
             ]}
-            labelFormatter={(label) => String(label)}
+            contentStyle={{
+              borderRadius: '12px',
+              border: '1px solid #f3f4f6',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
+              fontSize: '12px',
+            }}
           />
-          <Legend
-            formatter={(value) => <span className="text-xs text-gray-600">{value}</span>}
-          />
+          <Legend content={(props) => <CustomLegend payload={props.payload as LegendPayloadItem[]} total={total} />} />
         </PieChart>
       </ResponsiveContainer>
     </div>

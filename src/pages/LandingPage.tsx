@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
+import { TrendingUp } from 'lucide-react'
 
 function MockDashboard() {
   return (
-    <div className="bg-gray-900 rounded-3xl p-6 w-full max-w-sm shadow-2xl">
+    <div className="bg-gray-900 rounded-3xl p-6 w-full max-w-sm shadow-2xl ring-1 ring-white/10">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <span className="text-xs font-medium text-gray-400 uppercase tracking-widest">Marzo 2026</span>
@@ -13,7 +14,9 @@ function MockDashboard() {
       <div className="mb-6">
         <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">Balance</p>
         <p className="text-4xl font-bold text-white tracking-tight">$124.500</p>
-        <p className="text-xs text-emerald-400 mt-1">▲ positivo este mes</p>
+        <p className="flex items-center gap-1 text-xs text-emerald-400 mt-1">
+          <TrendingUp size={11} /> positivo este mes
+        </p>
       </div>
 
       {/* Metrics row */}
@@ -121,7 +124,7 @@ export function LandingPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-fr">
 
           {/* Card grande — registro rápido */}
-          <div className="bg-white rounded-3xl shadow-sm p-8 lg:col-span-2 flex flex-col justify-between min-h-[200px]">
+          <div className="bg-white rounded-3xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] p-8 lg:col-span-2 flex flex-col justify-between min-h-[200px]">
             <div>
               <h3 className="text-xl font-bold text-gray-900">Registrá en segundos</h3>
               <p className="mt-2 text-sm text-gray-500 leading-relaxed max-w-md">
@@ -139,7 +142,7 @@ export function LandingPage() {
           </div>
 
           {/* Card — privacidad */}
-          <div className="bg-gray-900 rounded-3xl shadow-sm p-8 text-white flex flex-col justify-between min-h-[200px]">
+          <div className="bg-gray-900 rounded-3xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] p-8 text-white flex flex-col justify-between min-h-[200px]">
             <div>
               <h3 className="text-xl font-bold">Solo tus datos</h3>
               <p className="mt-2 text-sm text-gray-400 leading-relaxed">
@@ -149,7 +152,7 @@ export function LandingPage() {
           </div>
 
           {/* Card — PDF */}
-          <div className="bg-white rounded-3xl shadow-sm p-8 flex flex-col justify-between min-h-[200px]">
+          <div className="bg-white rounded-3xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] p-8 flex flex-col justify-between min-h-[200px]">
             <div>
               <h3 className="text-xl font-bold text-gray-900">Exportá en PDF</h3>
               <p className="mt-2 text-sm text-gray-500 leading-relaxed">
@@ -159,7 +162,7 @@ export function LandingPage() {
           </div>
 
           {/* Card — dashboard */}
-          <div className="bg-white rounded-3xl shadow-sm p-8 lg:col-span-2 flex flex-col justify-between min-h-[200px]">
+          <div className="bg-white rounded-3xl shadow-[0_2px_12px_rgba(0,0,0,0.06)] p-8 lg:col-span-2 flex flex-col justify-between min-h-[200px]">
             <div>
               <h3 className="text-xl font-bold text-gray-900">Dashboard visual</h3>
               <p className="mt-2 text-sm text-gray-500 leading-relaxed max-w-md">
@@ -189,7 +192,7 @@ export function LandingPage() {
           <p className="mt-3 text-gray-400 text-sm">Sin tarjeta. Sin sorpresas.</p>
           <Link
             to="/register"
-            className="inline-block mt-8 bg-white hover:bg-gray-100 text-gray-900 font-medium px-8 py-3.5 rounded-xl transition-colors text-sm"
+            className="inline-block mt-8 bg-white hover:bg-gray-100 text-gray-900 font-medium px-8 py-3.5 rounded-xl transition-all hover:scale-[1.02] text-sm"
           >
             Crear mi cuenta
           </Link>

@@ -17,6 +17,7 @@ export function TransactionsPage() {
   const [editingTransaction, setEditingTransaction] = useState<Transaction | undefined>()
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [formError, setFormError] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<'all' | 'expense' | 'income'>('all')
 
   useEffect(() => {
     fetchTransactions()
@@ -67,6 +68,16 @@ export function TransactionsPage() {
   }
 
   const filtered = getFiltered()
+  const incomeCount = filtered.filter((t) => t.type === 'income').length
+  const expenseCount = filtered.filter((t) => t.type === 'expense').length
+  const tabFiltered =
+    activeTab === 'all' ? filtered : filtered.filter((t) => t.type === activeTab)
+
+  const TABS = [
+    { key: 'all' as const, label: `Todos (${filtered.length})` },
+    { key: 'expense' as const, label: `Gastos (${expenseCount})` },
+    { key: 'income' as const, label: `Ingresos (${incomeCount})` },
+  ]
 
   return (
     <div className="space-y-5">
@@ -82,6 +93,26 @@ export function TransactionsPage() {
         </button>
       </div>
 
+      {/* Tabs */}
+      <div className="border-b border-gray-100">
+        <div className="flex gap-0">
+          {TABS.map(({ key, label }) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setActiveTab(key)}
+              className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 -mb-[1px] ${
+                activeTab === key
+                  ? 'text-gray-900 border-gray-900'
+                  : 'text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-200'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Store-level error */}
       {error && (
         <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
@@ -89,12 +120,12 @@ export function TransactionsPage() {
         </div>
       )}
 
-      {/* Filters */}
+      {/* Filters (category + dates only) */}
       <TransactionFilters />
 
-      {/* List */}
+      {/* List — filtrada por tab */}
       <TransactionList
-        transactions={filtered}
+        transactions={tabFiltered}
         loading={loading}
         onEdit={handleEdit}
         onDelete={handleDelete}

@@ -41,7 +41,7 @@ export function LoginForm({ onSubmit, serverError }: LoginFormProps) {
           type="email"
           autoComplete="email"
           {...register('email')}
-          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 min-h-[44px] text-sm focus:outline-none focus:ring-2 focus:ring-gray-400/30 focus:border-gray-400 focus:bg-white transition-colors"
+          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 min-h-[44px] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-400 focus:bg-white transition-colors"
           placeholder="tu@email.com"
         />
         {errors.email && (
@@ -59,7 +59,7 @@ export function LoginForm({ onSubmit, serverError }: LoginFormProps) {
           type="password"
           autoComplete="current-password"
           {...register('password')}
-          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 min-h-[44px] text-sm focus:outline-none focus:ring-2 focus:ring-gray-400/30 focus:border-gray-400 focus:bg-white transition-colors"
+          className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 min-h-[44px] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-400 focus:bg-white transition-colors"
           placeholder="••••••••"
         />
         {errors.password && (
@@ -71,7 +71,7 @@ export function LoginForm({ onSubmit, serverError }: LoginFormProps) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 disabled:opacity-50 text-white font-medium rounded-xl px-4 min-h-[44px] text-sm transition-colors"
+        className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-medium rounded-xl px-4 min-h-[44px] text-sm transition-colors"
       >
         {isSubmitting && <Spinner size="sm" />}
         {isSubmitting ? 'Iniciando sesión...' : 'Iniciar sesión'}

@@ -1,17 +1,11 @@
-import { useState } from 'react'
-import { TrendingUp, TrendingDown, LayoutList } from 'lucide-react'
 import { useCategoryStore } from '@/stores/category.store'
 import { useTransactionStore } from '@/stores/transaction.store'
-import type { TransactionType } from '@/types/database.types'
+import { useState } from 'react'
 
 export function TransactionFilters() {
   const { categories } = useCategoryStore()
   const { filters, setFilters } = useTransactionStore()
   const [dateError, setDateError] = useState<string | null>(null)
-
-  const handleTypeChange = (type: TransactionType | 'all') => {
-    setFilters({ type })
-  }
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilters({ category_id: e.target.value })
@@ -38,32 +32,7 @@ export function TransactionFilters() {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-4 space-y-3">
-      {/* Type filter */}
-      <div className="flex gap-2">
-        {(['all', 'income', 'expense'] as const).map((type) => (
-          <button
-            key={type}
-            type="button"
-            onClick={() => handleTypeChange(type)}
-            className={`flex-1 min-h-[44px] rounded-xl text-sm font-medium transition-colors ${
-              filters.type === type
-                ? 'bg-gray-900 text-white'
-                : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-            }`}
-          >
-            {type === 'all' ? (
-              <span className="flex items-center justify-center gap-1.5"><LayoutList size={14} />Todos</span>
-            ) : type === 'income' ? (
-              <span className="flex items-center justify-center gap-1.5"><TrendingUp size={14} />Ingresos</span>
-            ) : (
-              <span className="flex items-center justify-center gap-1.5"><TrendingDown size={14} />Gastos</span>
-            )}
-          </button>
-        ))}
-      </div>
-
-      {/* Category + date row */}
+    <div className="bg-white rounded-2xl border border-gray-100/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] px-4 py-3">
       <div className="flex flex-col sm:flex-row gap-3">
         {/* Category */}
         <select
@@ -100,9 +69,8 @@ export function TransactionFilters() {
         />
       </div>
 
-      {/* Date validation error */}
       {dateError && (
-        <p className="text-xs text-red-600">{dateError}</p>
+        <p className="mt-2 text-xs text-red-600">{dateError}</p>
       )}
     </div>
   )

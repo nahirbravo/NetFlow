@@ -90,9 +90,9 @@ export function DashboardPage() {
   }
 
   return (
-    <div className="space-y-5">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-3">
+    <div className="space-y-6">
+      {/* Header row: título | DateRange compact + Export */}
+      <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-xs font-medium text-gray-400 uppercase tracking-widest mb-1">
             Resumen
@@ -101,15 +101,22 @@ export function DashboardPage() {
             {monthLabel(dateRange)}
           </h1>
         </div>
-        <ExportPDFButton
-          transactions={filtered}
-          dateRange={dateRange}
-          userEmail={user?.email ?? ''}
-        />
+        <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="hidden sm:block">
+            <DateRangePicker value={dateRange} onChange={setDateRange} compact />
+          </div>
+          <ExportPDFButton
+            transactions={filtered}
+            dateRange={dateRange}
+            userEmail={user?.email ?? ''}
+          />
+        </div>
       </div>
 
-      {/* Date range picker — full width */}
-      <DateRangePicker value={dateRange} onChange={setDateRange} />
+      {/* DateRangePicker en mobile (full width) */}
+      <div className="sm:hidden">
+        <DateRangePicker value={dateRange} onChange={setDateRange} />
+      </div>
 
       {/* Balance — card oscuro full width */}
       <BalanceCard
@@ -118,12 +125,14 @@ export function DashboardPage() {
         balance={balance}
       />
 
-      {/* Bento — gráfico (ancho) + movimientos recientes */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        <div className="lg:col-span-2">
+      {/* Bento — gráfico 3/5 + movimientos recientes 2/5 */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="lg:col-span-3">
           <ExpensePieChart data={pieData} />
         </div>
-        <RecentTransactions transactions={filtered} />
+        <div className="lg:col-span-2">
+          <RecentTransactions transactions={filtered} />
+        </div>
       </div>
     </div>
   )

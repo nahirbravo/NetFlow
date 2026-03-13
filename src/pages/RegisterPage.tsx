@@ -14,7 +14,7 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#f2f3f5]">
       <div className="w-full max-w-sm">
         {/* Header */}
         <div className="text-center mb-8">
@@ -23,7 +23,7 @@ export function RegisterPage() {
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-md p-7">
+        <div className="bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.08)] border-0 p-7">
           <RegisterForm onSubmit={handleSubmit} serverError={error} />
         </div>
 

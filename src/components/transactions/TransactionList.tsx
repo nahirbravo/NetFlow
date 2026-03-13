@@ -26,7 +26,7 @@ export function TransactionList({ transactions, loading, onEdit, onDelete }: Tra
     return (
       <div className="space-y-2">
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="h-[60px] bg-gray-100 rounded-lg animate-pulse" />
+          <div key={i} className="h-[60px] bg-gray-100/60 rounded-lg animate-pulse" />
         ))}
       </div>
     )
@@ -45,7 +45,7 @@ export function TransactionList({ transactions, loading, onEdit, onDelete }: Tra
   return (
     <div>
       {/* List */}
-      <div className="divide-y divide-gray-50 bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div className="divide-y divide-gray-50 bg-white rounded-2xl shadow-sm border border-gray-100/80 overflow-hidden">
         {paginated.map((t) => (
           <TransactionItem
             key={t.id}

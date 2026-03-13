@@ -4,9 +4,10 @@ import type { DateRange } from '@/types/database.types'
 interface DateRangePickerProps {
   value: DateRange
   onChange: (range: DateRange) => void
+  compact?: boolean
 }
 
-export function DateRangePicker({ value, onChange }: DateRangePickerProps) {
+export function DateRangePicker({ value, onChange, compact }: DateRangePickerProps) {
   const [error, setError] = useState<string | null>(null)
 
   const handleFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +28,29 @@ export function DateRangePicker({ value, onChange }: DateRangePickerProps) {
       return
     }
     onChange({ ...value, to })
+  }
+
+  if (compact) {
+    return (
+      <div className="flex items-center gap-1.5">
+        <input
+          type="date"
+          value={value.from}
+          onChange={handleFromChange}
+          className="rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-400/30 focus:border-emerald-400 transition-colors"
+          aria-label="Fecha desde"
+        />
+        <span className="text-gray-300 text-xs select-none">–</span>
+        <input
+          type="date"
+          value={value.to}
+          onChange={handleToChange}
+          className="rounded-lg border border-gray-200 bg-white px-2 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-400/30 focus:border-emerald-400 transition-colors"
+          aria-label="Fecha hasta"
+        />
+        {error && <span className="text-xs text-red-500 ml-1">{error}</span>}
+      </div>
+    )
   }
 
   return (
