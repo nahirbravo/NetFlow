@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { ClipboardList } from 'lucide-react'
 import { CategoryBadge } from '@/components/categories/CategoryBadge'
 import { EmptyState } from '@/components/ui/EmptyState'
 import type { Transaction } from '@/types/database.types'
@@ -37,7 +38,7 @@ export function RecentTransactions({ transactions }: RecentTransactionsProps) {
         <EmptyState
           title="Sin movimientos"
           description="Aún no registraste ningún movimiento."
-          icon="📋"
+          icon={<ClipboardList size={48} strokeWidth={1.25} />}
         />
       ) : (
         <div className="space-y-2">

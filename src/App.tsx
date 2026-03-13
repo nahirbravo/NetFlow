@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { Toaster } from 'sonner'
 import { AppLayout } from '@/components/ui/AppLayout'
 import { ProtectedRoute } from '@/components/ui/ProtectedRoute'
 import { LoginPage } from '@/pages/LoginPage'
@@ -30,5 +31,10 @@ const router = createBrowserRouter([
 ])
 
 export function App() {
-  return <RouterProvider router={router} />
+  return (
+    <>
+      <RouterProvider router={router} />
+      <Toaster position="bottom-right" richColors closeButton />
+    </>
+  )
 }

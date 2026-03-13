@@ -1,3 +1,4 @@
+import { Tag, Pencil, Trash2 } from 'lucide-react'
 import { CategoryBadge } from '@/components/categories/CategoryBadge'
 import { EmptyState } from '@/components/ui/EmptyState'
 import type { Category } from '@/types/database.types'
@@ -14,7 +15,7 @@ export function CategoryList({ categories, onEdit, onDelete }: CategoryListProps
       <EmptyState
         title="Sin categorías"
         description="Creá tu primera categoría."
-        icon="🏷️"
+        icon={<Tag size={48} strokeWidth={1.25} />}
       />
     )
   }
@@ -29,18 +30,18 @@ export function CategoryList({ categories, onEdit, onDelete }: CategoryListProps
               <button
                 type="button"
                 onClick={() => onEdit(cat)}
-                className="text-sm text-gray-500 hover:text-indigo-600 px-3 min-h-[44px] flex items-center rounded-lg hover:bg-indigo-50 transition-colors"
+                className="text-gray-400 hover:text-indigo-600 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-indigo-50 transition-colors"
                 aria-label={`Editar ${cat.name}`}
               >
-                ✏️
+                <Pencil size={15} />
               </button>
               <button
                 type="button"
                 onClick={() => onDelete(cat.id)}
-                className="text-sm text-gray-500 hover:text-red-600 px-3 min-h-[44px] flex items-center rounded-lg hover:bg-red-50 transition-colors"
+                className="text-gray-400 hover:text-red-600 p-2 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-red-50 transition-colors"
                 aria-label={`Eliminar ${cat.name}`}
               >
-                🗑️
+                <Trash2 size={15} />
               </button>
             </div>
           )}

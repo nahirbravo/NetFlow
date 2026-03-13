@@ -49,7 +49,7 @@ export const useCategoryStore = create<CategoryState>((set, get) => ({
 
       const { data, error } = await supabase
         .from('categories')
-        .insert({ ...values, user_id: user.id, is_system: false })
+        .insert({ ...values, icon: '', user_id: user.id, is_system: false })
         .select()
         .single()
 

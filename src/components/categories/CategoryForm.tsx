@@ -8,7 +8,6 @@ import type { Category, CategoryFormValues } from '@/types/database.types'
 const categorySchema = z.object({
   name: z.string().min(1, 'El nombre es obligatorio').max(50, 'Máximo 50 caracteres'),
   color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Color inválido'),
-  icon: z.string().min(1, 'El ícono es obligatorio').max(10, 'Demasiado largo'),
 })
 
 interface CategoryFormProps {
@@ -29,13 +28,12 @@ export function CategoryForm({ category, onSubmit, onCancel, serverError }: Cate
     defaultValues: {
       name: category?.name ?? '',
       color: category?.color ?? '#6366f1',
-      icon: category?.icon ?? '📂',
     },
   })
 
   useEffect(() => {
     if (category) {
-      reset({ name: category.name, color: category.color, icon: category.icon })
+      reset({ name: category.name, color: category.color })
     }
   }, [category, reset])
 
@@ -64,39 +62,20 @@ export function CategoryForm({ category, onSubmit, onCancel, serverError }: Cate
         )}
       </div>
 
-      {/* Icon + Color row */}
-      <div className="flex gap-3">
-        <div className="flex-1">
-          <label htmlFor="cat-icon" className="block text-sm font-medium text-gray-700 mb-1">
-            Ícono (emoji)
-          </label>
-          <input
-            id="cat-icon"
-            type="text"
-            {...register('icon')}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 min-h-[44px] text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xl"
-            placeholder="🐾"
-            maxLength={10}
-          />
-          {errors.icon && (
-            <p className="mt-1 text-xs text-red-600">{errors.icon.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="cat-color" className="block text-sm font-medium text-gray-700 mb-1">
-            Color
-          </label>
-          <input
-            id="cat-color"
-            type="color"
-            {...register('color')}
-            className="rounded-xl border border-gray-200 bg-gray-50 min-h-[44px] w-16 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-400/50 transition-colors"
-          />
-          {errors.color && (
-            <p className="mt-1 text-xs text-red-600">{errors.color.message}</p>
-          )}
-        </div>
+      {/* Color */}
+      <div>
+        <label htmlFor="cat-color" className="block text-sm font-medium text-gray-700 mb-1">
+          Color
+        </label>
+        <input
+          id="cat-color"
+          type="color"
+          {...register('color')}
+          className="rounded-xl border border-gray-200 bg-gray-50 min-h-[44px] w-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-400/30 transition-colors"
+        />
+        {errors.color && (
+          <p className="mt-1 text-xs text-red-600">{errors.color.message}</p>
+        )}
       </div>
 
       {/* Actions */}

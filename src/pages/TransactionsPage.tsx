@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { TransactionList } from '@/components/transactions/TransactionList'
 import { TransactionFilters } from '@/components/transactions/TransactionFilters'
 import { TransactionForm } from '@/components/transactions/TransactionForm'
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
 import { useTransactionStore } from '@/stores/transaction.store'
 import { useCategoryStore } from '@/stores/category.store'
 import type { Transaction, TransactionFormValues } from '@/types/database.types'
@@ -13,8 +15,8 @@ export function TransactionsPage() {
 
   const [showForm, setShowForm] = useState(false)
   const [editingTransaction, setEditingTransaction] = useState<Transaction | undefined>()
+  const [deletingId, setDeletingId] = useState<string | null>(null)
   const [formError, setFormError] = useState<string | null>(null)
-  const [deleteError, setDeleteError] = useState<string | null>(null)
 
   useEffect(() => {
     fetchTransactions()
@@ -33,13 +35,19 @@ export function TransactionsPage() {
     setShowForm(true)
   }
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('¿Eliminar este movimiento?')) return
-    setDeleteError(null)
+  const handleDelete = (id: string) => {
+    setDeletingId(id)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (!deletingId) return
     try {
-      await deleteTransaction(id)
+      await deleteTransaction(deletingId)
+      toast.success('Movimiento eliminado')
     } catch {
-      setDeleteError('No se pudo eliminar el movimiento. Intenta de nuevo.')
+      toast.error('No se pudo eliminar el movimiento')
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -75,9 +83,9 @@ export function TransactionsPage() {
       </div>
 
       {/* Store-level error */}
-      {(error ?? deleteError) && (
+      {error && (
         <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
-          {error ?? deleteError}
+          {error}
         </div>
       )}
 
@@ -90,6 +98,15 @@ export function TransactionsPage() {
         loading={loading}
         onEdit={handleEdit}
         onDelete={handleDelete}
+      />
+
+      {/* Confirm delete dialog */}
+      <ConfirmDialog
+        open={!!deletingId}
+        title="¿Eliminar movimiento?"
+        description="Esta acción no se puede deshacer."
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setDeletingId(null)}
       />
 
       {/* Modal overlay */}

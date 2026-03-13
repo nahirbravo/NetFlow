@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { TrendingDown, TrendingUp } from 'lucide-react'
 import { useCategoryStore } from '@/stores/category.store'
 import { Spinner } from '@/components/ui/Spinner'
 import type { Transaction, TransactionFormValues } from '@/types/database.types'
@@ -82,24 +83,26 @@ export function TransactionForm({ transaction, onSubmit, onCancel, serverError }
           <button
             type="button"
             onClick={() => setValue('type', 'expense')}
-            className={`flex-1 min-h-[40px] rounded-lg text-sm font-medium transition-all ${
+            className={`flex-1 min-h-[40px] rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-1.5 ${
               selectedType === 'expense'
                 ? 'bg-white text-red-600 shadow-sm'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            💸 Gasto
+            <TrendingDown size={15} />
+            Gasto
           </button>
           <button
             type="button"
             onClick={() => setValue('type', 'income')}
-            className={`flex-1 min-h-[40px] rounded-lg text-sm font-medium transition-all ${
+            className={`flex-1 min-h-[40px] rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-1.5 ${
               selectedType === 'income'
                 ? 'bg-white text-green-600 shadow-sm'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            💵 Ingreso
+            <TrendingUp size={15} />
+            Ingreso
           </button>
         </div>
         {errors.type && (
@@ -139,7 +142,7 @@ export function TransactionForm({ transaction, onSubmit, onCancel, serverError }
           <option value="">Seleccioná una categoría</option>
           {categories.map((cat) => (
             <option key={cat.id} value={cat.id}>
-              {cat.icon} {cat.name}
+              {cat.name}
             </option>
           ))}
         </select>

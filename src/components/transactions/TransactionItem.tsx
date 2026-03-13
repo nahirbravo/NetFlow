@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { MoreVertical, Pencil, Trash2 } from 'lucide-react'
 import { CategoryBadge } from '@/components/categories/CategoryBadge'
 import type { Transaction } from '@/types/database.types'
 
@@ -65,7 +66,7 @@ export function TransactionItem({ transaction, onEdit, onDelete }: TransactionIt
           className="p-2 rounded-lg hover:bg-gray-100 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center text-gray-400"
           aria-label="Opciones"
         >
-          ⋮
+          <MoreVertical size={16} />
         </button>
 
         {menuOpen && (
@@ -79,16 +80,16 @@ export function TransactionItem({ transaction, onEdit, onDelete }: TransactionIt
               <button
                 type="button"
                 onClick={() => { setMenuOpen(false); onEdit(transaction) }}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px] flex items-center"
+                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 min-h-[44px] flex items-center gap-2"
               >
-                ✏️ Editar
+                <Pencil size={14} /> Editar
               </button>
               <button
                 type="button"
                 onClick={() => { setMenuOpen(false); onDelete(transaction.id) }}
-                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 min-h-[44px] flex items-center"
+                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 min-h-[44px] flex items-center gap-2"
               >
-                🗑️ Eliminar
+                <Trash2 size={14} /> Eliminar
               </button>
             </div>
           </>

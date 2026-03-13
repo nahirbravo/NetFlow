@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { FileDown } from 'lucide-react'
 import { generatePDF } from '@/lib/pdf'
 import { Spinner } from '@/components/ui/Spinner'
 import type { Transaction, DateRange } from '@/types/database.types'
@@ -45,7 +46,8 @@ export function ExportPDFButton({ transactions, dateRange, userEmail }: ExportPD
           </>
         ) : (
           <>
-            📄 Exportar PDF
+            <FileDown size={16} />
+            Exportar PDF
           </>
         )}
       </button>

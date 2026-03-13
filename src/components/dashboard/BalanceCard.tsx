@@ -1,3 +1,5 @@
+import { TrendingUp, TrendingDown } from 'lucide-react'
+
 interface BalanceCardProps {
   totalIncome: number
   totalExpenses: number
@@ -27,8 +29,9 @@ export function BalanceCard({ totalIncome, totalExpenses, balance }: BalanceCard
           <p className={`text-3xl sm:text-5xl font-bold tracking-tight leading-none ${isPositive ? 'text-white' : 'text-red-400'}`}>
             {formatCurrency(balance)}
           </p>
-          <p className={`mt-3 text-xs font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-            {isPositive ? '▲ en positivo' : '▼ en negativo'}
+          <p className={`mt-3 flex items-center gap-1 text-xs font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+            {isPositive ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
+            {isPositive ? 'en positivo' : 'en negativo'}
           </p>
         </div>
 
@@ -37,12 +40,12 @@ export function BalanceCard({ totalIncome, totalExpenses, balance }: BalanceCard
           <div className="bg-white/5 rounded-2xl px-4 py-4 flex-1">
             <p className="text-xs text-gray-500 mb-2">Ingresos</p>
             <p className="text-base sm:text-xl font-bold text-white tracking-tight">{formatCurrency(totalIncome)}</p>
-            <p className="mt-1 text-xs text-emerald-400">▲</p>
+            <TrendingUp size={13} className="mt-1 text-emerald-400" />
           </div>
           <div className="bg-white/5 rounded-2xl px-4 py-4 flex-1">
             <p className="text-xs text-gray-500 mb-2">Gastos</p>
             <p className="text-base sm:text-xl font-bold text-white tracking-tight">{formatCurrency(totalExpenses)}</p>
-            <p className="mt-1 text-xs text-red-400">▼</p>
+            <TrendingDown size={13} className="mt-1 text-red-400" />
           </div>
         </div>
 

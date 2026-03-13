@@ -53,7 +53,6 @@ export interface TransactionFormValues {
 export interface CategoryFormValues {
   name: string
   color: string
-  icon: string
 }
 
 // ─── Computed dashboard values ─────────────────────────────────────────────────

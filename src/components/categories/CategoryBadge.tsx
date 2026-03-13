@@ -10,10 +10,13 @@ export function CategoryBadge({ category, size = 'md' }: CategoryBadgeProps) {
 
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full font-medium ${paddingClass}`}
+      className={`inline-flex items-center gap-1.5 rounded-full font-medium ${paddingClass}`}
       style={{ backgroundColor: `${category.color}22`, color: category.color }}
     >
-      <span aria-hidden="true">{category.icon}</span>
+      <span
+        className="rounded-full flex-shrink-0"
+        style={{ backgroundColor: category.color, width: size === 'sm' ? 6 : 8, height: size === 'sm' ? 6 : 8 }}
+      />
       {category.name}
     </span>
   )

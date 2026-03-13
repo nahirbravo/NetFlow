@@ -1,4 +1,5 @@
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { ChartPie } from 'lucide-react'
 import { EmptyState } from '@/components/ui/EmptyState'
 import type { PieChartEntry } from '@/types/database.types'
 
@@ -22,7 +23,7 @@ export function ExpensePieChart({ data }: ExpensePieChartProps) {
         <EmptyState
           title="Sin datos"
           description="No hay gastos en este período."
-          icon="🥧"
+          icon={<ChartPie size={48} strokeWidth={1.25} />}
         />
       </div>
     )

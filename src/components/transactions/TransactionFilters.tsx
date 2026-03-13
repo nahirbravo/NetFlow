@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { TrendingUp, TrendingDown, LayoutList } from 'lucide-react'
 import { useCategoryStore } from '@/stores/category.store'
 import { useTransactionStore } from '@/stores/transaction.store'
 import type { TransactionType } from '@/types/database.types'
@@ -51,7 +52,13 @@ export function TransactionFilters() {
                 : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
             }`}
           >
-            {type === 'all' ? 'Todos' : type === 'income' ? '💵 Ingresos' : '💸 Gastos'}
+            {type === 'all' ? (
+              <span className="flex items-center justify-center gap-1.5"><LayoutList size={14} />Todos</span>
+            ) : type === 'income' ? (
+              <span className="flex items-center justify-center gap-1.5"><TrendingUp size={14} />Ingresos</span>
+            ) : (
+              <span className="flex items-center justify-center gap-1.5"><TrendingDown size={14} />Gastos</span>
+            )}
           </button>
         ))}
       </div>
@@ -67,7 +74,7 @@ export function TransactionFilters() {
           <option value="all">Todas las categorías</option>
           {categories.map((cat) => (
             <option key={cat.id} value={cat.id}>
-              {cat.icon} {cat.name}
+              {cat.name}
             </option>
           ))}
         </select>

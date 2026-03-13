@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { CategoryList } from '@/components/categories/CategoryList'
 import { CategoryForm } from '@/components/categories/CategoryForm'
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog'
 import { useCategoryStore } from '@/stores/category.store'
 import type { Category, CategoryFormValues } from '@/types/database.types'
 
@@ -9,8 +11,8 @@ export function CategoriesPage() {
     useCategoryStore()
   const [showForm, setShowForm] = useState(false)
   const [editingCategory, setEditingCategory] = useState<Category | undefined>()
+  const [deletingId, setDeletingId] = useState<string | null>(null)
   const [formError, setFormError] = useState<string | null>(null)
-  const [deleteError, setDeleteError] = useState<string | null>(null)
 
   useEffect(() => {
     fetchCategories()
@@ -28,14 +30,19 @@ export function CategoriesPage() {
     setShowForm(true)
   }
 
-  const handleDelete = async (id: string) => {
-    const cat = categories.find((c) => c.id === id)
-    if (!confirm(`¿Eliminar la categoría "${cat?.name}"?`)) return
-    setDeleteError(null)
+  const handleDelete = (id: string) => {
+    setDeletingId(id)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (!deletingId) return
     try {
-      await deleteCategory(id)
+      await deleteCategory(deletingId)
+      toast.success('Categoría eliminada')
     } catch {
-      setDeleteError('No se pudo eliminar la categoría. Intenta de nuevo.')
+      toast.error('No se pudo eliminar la categoría')
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -69,9 +76,9 @@ export function CategoriesPage() {
       </div>
 
       {/* Errors */}
-      {(error ?? deleteError) && (
+      {error && (
         <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
-          {error ?? deleteError}
+          {error}
         </div>
       )}
 
@@ -80,6 +87,15 @@ export function CategoriesPage() {
         categories={categories}
         onEdit={handleEdit}
         onDelete={handleDelete}
+      />
+
+      {/* Confirm delete dialog */}
+      <ConfirmDialog
+        open={!!deletingId}
+        title={`¿Eliminar "${categories.find((c) => c.id === deletingId)?.name}"?`}
+        description="Esta acción no se puede deshacer."
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setDeletingId(null)}
       />
 
       {/* Modal overlay */}

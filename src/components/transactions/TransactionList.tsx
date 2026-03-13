@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ReceiptText } from 'lucide-react'
 import { TransactionItem } from '@/components/transactions/TransactionItem'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { Spinner } from '@/components/ui/Spinner'
@@ -36,7 +37,7 @@ export function TransactionList({ transactions, loading, onEdit, onDelete }: Tra
       <EmptyState
         title="Sin movimientos"
         description="No hay transacciones que coincidan con los filtros seleccionados."
-        icon="📋"
+        icon={<ReceiptText size={48} strokeWidth={1.25} />}
       />
     )
   }
